@@ -13,7 +13,7 @@
 	<nav>
 		<ul>
 			<li><a href="view.jsp">View</a></li>
-			<li><a href="add.jsp">Add</a></li>
+			<li><a href="add.jsp?select=Team">Add</a></li>
 			<li><a href="delete.jsp">Delete</a></li>
 		</ul>
 	</nav>

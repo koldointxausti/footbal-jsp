@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>FOOTBALL - Team</title>
+<title>FOOTBALL - View</title>
 </head>
 <body>
 	<h1>VIEW</h1>
@@ -78,7 +78,6 @@
 			}
 			
 		}catch(ClassNotFoundException e){
-			out.println("class not found");
 			e.printStackTrace();
 		}catch(Exception e){
 			e.printStackTrace();
