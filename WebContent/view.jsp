@@ -38,6 +38,8 @@
 									<li class="wonLeagues"><strong>Won leagues:</strong> <%=rs.getInt(3)%></li>
 									<li class="shirtColor"><strong>Shirt color:</strong> <%=rs.getString(4)%></li>
 								</ul></li>
+								<li><a href="edit.jsp?select=Team team=<%=rs.getString(1)%>">Edit</a></li>
+								<li><a href="delete.jsp?select=Team team=<%=rs.getString(1)%>">Delete</a></li>
 							</ul>
 							<hr>
 	<%
@@ -53,6 +55,8 @@
 									<li class="age"><strong>Age: </strong><%=rs.getInt(3) %></li>
 									<li class="height"><strong>Height: </strong><%=rs.getInt(4) %></li>
 								</ul></li>
+								<li><a href="edit.jsp?select=Player player=<%=rs.getString(1)%>">Edit</a></li>
+								<li><a href="delete.jsp?select=Player player=<%=rs.getString(1)%>">Delete</a></li>
 							</ul>
 							<hr>
 	<%
@@ -69,6 +73,10 @@
 									<td> - </td>
 									<td><h2><%=rs.getString("goalsVisitor") %></h2></td>
 									<td><h4><%=rs.getString("visitorTeam") %></h4></td>
+								</tr>
+								<tr>
+									<td><a href="edit.jsp?select=Match match=<%=rs.getString(1) +':'+ rs.getString(2)%>">Edit</a></td>
+									<td><a href="delete.jsp?select=Match match=<%=rs.getString(1)+':'+rs.getString(2)%>">Delete</a></td>
 								</tr>
 							</table>
 							<hr>

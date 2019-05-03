@@ -9,14 +9,11 @@
 <body>
 	<h1>DELETE</h1>
 	<a href="index.jsp" style="position:fixed;top:0;right:50px;font-size:36px;">Go back</a>
-	<form>
-		<input list="selection" placeholder="Select an option" name="select">
-		<datalist id="selection">
-			<option value="Team"></option>
-			<option value="Player"></option>
-			<option value="Match"></option>
-		</datalist>
-		<input type="submit" value="Show">
-	</form>
+	<ul>
+		<li><a href="delete.jsp?select=Team">Team</a></li>
+		<li><a href="delete.jsp?select=Player">Player</a></li>
+		<li><a href="delete.jsp?select=Match">Match</a></li>
+	</ul>
+	
 </body>
 </html>
