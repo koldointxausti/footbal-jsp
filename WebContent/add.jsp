@@ -7,10 +7,11 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>FOOTBALL - Add</title>
+<style><%@include file="/WEB-INF/css/styles.css"%></style>
 </head>
 <body>
 	<h1>ADD</h1>
-	<a href="index.jsp" style="position:fixed;top:0;right:50px;font-size:36px;">Go back</a>
+	<a href="index.jsp?select=<%=request.getParameter("select") %>" style="position:fixed;top:0;right:50px;font-size:36px;">Go back</a>
 	<ul>
 		<li><a href="add.jsp?select=Team">Team</a></li>
 		<li><a href="add.jsp?select=Player">Player</a></li>
@@ -25,7 +26,7 @@
 				Class.forName("com.mysql.cj.jdbc.Driver");
 				Connection conn = null;
 				conn = DriverManager.getConnection(
-						"jdbc:mysql://localhost:3306/matchesdb?user=dw18&password=dw18&useSSL=false&serverTimezone=UTC");
+						"jdbc:mysql://localhost:3306/matchesdb?user=dw18&password=dw18&serverTimezone=UTC&useSSL=false");
 				PreparedStatement st = null;
 				%>
 				<form action="add.jsp" method="get">
@@ -44,7 +45,7 @@
 								st.setInt(3,team.getWonLeagues());	
 								st.setString(4,team.getShirtColor());	
 								st.executeUpdate();
-								
+								response.sendRedirect("index.jsp?select=Team");	
 							}else{
 					%>			
 									<input type="hidden" name="select" value="Team">
@@ -54,7 +55,7 @@
 										<tr><th>Stadium:</th><td><input type="text" name="stadium"></td></tr>
 										<tr><th>Won leagues:</th><td><input type="number" name="wonLeagues"></td></tr>
 										<tr><th>Shirt color:</th><td><input type="text" name="shirtColor"></td></tr>
-										<tr><td colspan=2><input type="submit" name="add"></td></tr>
+										<tr><td colspan=2><input type="submit" name="add" value="Add"></td></tr>
 									</table>
 					<%
 							}
@@ -71,7 +72,8 @@
 								st.setString(2,player.getTeam());
 								st.setInt(3,player.getAge());	
 								st.setInt(4,player.getHeight());	
-								st.executeUpdate();							
+								st.executeUpdate();	
+								response.sendRedirect("index.jsp?select=Player");							
 							}else{
 					%>
 								<input type="hidden" name="select" value="Player">
@@ -83,6 +85,7 @@
 									<tr><th>Height:</th><td><input type="number" name="height" pattern="[0-9]+"></td></tr>
 									<tr><td colspan=2><input type="submit" name="add" value="Add"></td></tr>
 								</table>
+								<p>*Remember to use an existing team.</p>
 					<%			
 							}
 							break;
@@ -98,7 +101,8 @@
 								st.setString(2,match.getVisitorTeam().getName());
 								st.setInt(3,match.getGoalsLocal());	
 								st.setInt(4,match.getGoalsVisitor());	
-								st.executeUpdate();								
+								st.executeUpdate();	
+								response.sendRedirect("index.jsp?select=Match");								
 							}else{
 					%>
 								<input type="hidden" name="select" value="Match">
@@ -118,7 +122,7 @@
 									</tr>
 									<tr><td colspan=4><input type="submit" name="add" value="Add"></td></tr>
 								</table>
-						
+								<p>*Remember to use existing teams.</p>
 				<%			
 							}
 						break;
@@ -131,8 +135,7 @@
 				e.printStackTrace();
 			}catch(Exception e){
 				e.printStackTrace();
-			}
-					
+			}	
 				%>
 		
 </body>

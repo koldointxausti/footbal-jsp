@@ -1,0 +1,46 @@
+body{
+    width:max-content;
+    margin:0 auto;
+    text-align:center;
+    font-family:verdana;
+}
+ul{
+    list-style-type:none;
+    margin:50px auto;
+}
+li{
+    display:inline;
+}
+a{
+    text-decoration:none;
+    color:white;
+    padding:20px;
+    background-color:gray;
+}
+a:hover{
+    background-color:gold;
+}
+table{
+    width:max-content;
+    box-shadow: 1px 1px 7px gray;
+    padding:20px 30px;
+    margin:0 auto;
+}
+table td{
+    border:15px solid transparent;
+}
+input[type=submit]{
+    border:none;
+    background-color: gray;
+    width: 100%;
+    padding: 10px 0;
+    color:white;
+    border: 5px solid transparent;
+}
+input[type=submit]:hover{
+    background: none;
+    border-color: gray;
+    color: gray;
+    font-weight:bold;
+    cursor:pointer;
+}
