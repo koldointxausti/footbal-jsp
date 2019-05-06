@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="java.sql.*"%>
+<%@ page import="com.zubiri.matches.*" %>
 <%@ page import="com.mysql.cj.jdbc.Driver"%>
 <!DOCTYPE html>
 <html>
@@ -19,15 +20,12 @@
 	</ul>
 	<%
 		try{
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection conn = null;
-			conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/matchesdb?user=dw18&password=dw18&serverTimezone=UTC&useSSL=false");
-			Statement st = conn.createStatement();
+			MatchesConnection mconn = new MatchesConnection();
+			mconn.connect();
 			switch(request.getParameter("select")){
 				case "Team":
-						ResultSet rs = st.executeQuery("select * from team;");
-						while (rs.next()) {
+					ResultSet rs = mconn.getTeams();
+					while (rs.next()) {
 	%>
 							<ul>
 								<li><h3 class="name"><%=rs.getString(1)%></h3><ul>
@@ -43,7 +41,7 @@
 						}
 					break;
 				case "Player":
-						rs = st.executeQuery("select * from player;");
+						rs = mconn.getPlayers();
 						while(rs.next()){
 	%>
 							<ul>
@@ -52,15 +50,15 @@
 									<li class="age"><strong>Age: </strong><%=rs.getInt(3) %></li>
 									<li class="height"><strong>Height: </strong><%=rs.getInt(4) %></li>
 								</ul></li>
-								<li><a href="edit.jsp?select=Player player=<%=rs.getString(1)%>">Edit</a></li>
-								<li><a href="delete.jsp?select=Player player=<%=rs.getString(1)%>">Delete</a></li>
+								<li><a href="edit.jsp?select=Player&player=<%=rs.getString(1)%>">Edit</a></li>
+								<li><a href="delete.jsp?select=Player&player=<%=rs.getString(1)%>">Delete</a></li>
 							</ul>
 							<hr>
 	<%
 						}
 					break;
 				case "Match":
-						rs = st.executeQuery("select * from matches;");
+						rs = mconn.getMatches();
 						while(rs.next()){
 	%>
 							<table>
@@ -72,8 +70,8 @@
 									<td><h4><%=rs.getString("visitorTeam") %></h4></td>
 								</tr>
 								<tr>
-									<td><a href="edit.jsp?select=Match localTeam=<%=rs.getString(1)%> visitorTeam=<%=rs.getString(2)%>">Edit</a></td>
-									<td><a href="delete.jsp?select=Match match=<%=rs.getString(1)+':'+rs.getString(2)%>">Delete</a></td>
+									<td><a href="edit.jsp?select=Match&localTeam=<%=rs.getString(1)%>&visitorTeam=<%=rs.getString(2)%>">Edit</a></td>
+									<td><a href="delete.jsp?select=Match&localTeam=<%=rs.getString(1)%>&visitorTeam=<%=rs.getString(2)%>">Delete</a></td>
 								</tr>
 							</table>
 							<hr>
@@ -81,7 +79,7 @@
 						}
 					break;
 			}
-			
+			mconn.close();
 		}catch(ClassNotFoundException e){
 			e.printStackTrace();
 		}catch(Exception e){

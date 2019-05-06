@@ -5,25 +5,20 @@
 <% 
 	out.println(request.getParameter("select"));
 	try{
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		Connection conn = null;
-		conn = DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306/matchesdb?user=dw18&password=dw18&serverTimezone=UTC&useSSL=false");
-		Statement st = conn.createStatement();
+		MatchesConnection mconn = new MatchesConnection();
+		mconn.connect();
 		switch(request.getParameter("select")){
 			case "Team":
-				out.println("delete from team where name='"+request.getParameter("team")+"';");
-				st.executeUpdate("delete from team where name='"+request.getParameter("team")+"';");
+				mconn.deleteTeam(request.getParameter("team"));
 				break;
 			case "Player":
-				out.println("delete from player where name='"+request.getParameter("player")+"';");
-				st.executeUpdate("delete from player where name='"+request.getParameter("player")+"';");
+				mconn.deletePlayer(request.getParameter("player"));
 				break;
 			case "Match":
-				out.println("delete from matches where localTeam='"+request.getParameter("localTeam")+"' and visitorTeam="+request.getParameter("visitorTeam")+";");
-				st.executeUpdate("delete from matches where localTeam='"+request.getParameter("localTeam")+"' and visitorTeam="+request.getParameter("visitorTeam")+";");
+				mconn.deleteMatch(request.getParameter("localTeam"),request.getParameter("visitorTeam"));
 				break;
 		}
+		mconn.close();
 	}catch(ClassNotFoundException e){
 		e.printStackTrace();
 	}

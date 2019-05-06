@@ -23,11 +23,8 @@
 			Player player = new Player();
 			FootballMatch match = new FootballMatch();
 			try{
-				Class.forName("com.mysql.cj.jdbc.Driver");
-				Connection conn = null;
-				conn = DriverManager.getConnection(
-						"jdbc:mysql://localhost:3306/matchesdb?user=dw18&password=dw18&serverTimezone=UTC&useSSL=false");
-				PreparedStatement st = null;
+				MatchesConnection mconn = new MatchesConnection();
+				mconn.connect();
 				%>
 				<form action="add.jsp" method="get">
 				<%
@@ -38,13 +35,7 @@
 								team.setStadium(request.getParameter("stadium"));
 								team.setWonLeagues(Integer.parseInt(request.getParameter("wonLeagues")));
 								team.setShirtColor(request.getParameter("shirtColor"));
-								
-								st=conn.prepareStatement("insert into team(name,stadium,wonLeagues,shirtColor)values(?,?,?,?)"); //sql insert query 
-								st.setString(1,team.getName()); 
-								st.setString(2,team.getStadium());
-								st.setInt(3,team.getWonLeagues());	
-								st.setString(4,team.getShirtColor());	
-								st.executeUpdate();
+								mconn.insertTeam(team);
 								response.sendRedirect("index.jsp?select=Team");	
 							}else{
 					%>			
@@ -67,12 +58,8 @@
 								player.setAge(Integer.parseInt(request.getParameter("age")));
 								player.setHeight(Integer.parseInt(request.getParameter("height")));
 								
-								st=conn.prepareStatement("insert into player(name,team,age,height)values(?,?,?,?)"); //sql insert query 
-								st.setString(1,player.getName()); 
-								st.setString(2,player.getTeam());
-								st.setInt(3,player.getAge());	
-								st.setInt(4,player.getHeight());	
-								st.executeUpdate();	
+								mconn.insertPlayer(player);
+								
 								response.sendRedirect("index.jsp?select=Player");							
 							}else{
 					%>
@@ -95,13 +82,9 @@
 								match.setVisitorTeam(new FootballTeam(request.getParameter("visitorTeam")));
 								match.setGoalsLocal(Integer.parseInt(request.getParameter("localGoals")));
 								match.setGoalsVisitor(Integer.parseInt(request.getParameter("visitorGoals")));
-																
-								st=conn.prepareStatement("insert into matches(localTeam,visitorTeam,goalsLocal,goalsVisitor)values(?,?,?,?)"); //sql insert query 
-								st.setString(1,match.getLocalTeam().getName()); 
-								st.setString(2,match.getVisitorTeam().getName());
-								st.setInt(3,match.getGoalsLocal());	
-								st.setInt(4,match.getGoalsVisitor());	
-								st.executeUpdate();	
+								
+								mconn.insertMatch(match);
+								
 								response.sendRedirect("index.jsp?select=Match");								
 							}else{
 					%>
@@ -127,7 +110,7 @@
 							}
 						break;
 				}
-				conn.close();
+				mconn.close();
 				%>
 				</form>
 				<%
