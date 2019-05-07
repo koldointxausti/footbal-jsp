@@ -6,32 +6,37 @@ public class MatchesConnection{
 	private Connection conn = null; 
 	private Statement st = null;
 	private PreparedStatement pst = null;
+	private ResultSet rs;
 	
 	public Connection getConnection() {
 		return conn;
 	}
+	public Statement getStatement() {
+		return st;
+	}
+	
 	
 	/**
-	 * Makes a connection with 'matchedb' database using the user dw18
+	 * Makes a connection with 'matchesdb' database using the user dw18
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
 	public void connect() throws SQLException, ClassNotFoundException{
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		DriverManager.getConnection(
+		conn = DriverManager.getConnection(
 				"jdbc:mysql://localhost:3306/matchesdb?user=dw18&password=dw18&serverTimezone=UTC&useSSL=false");
+		st = conn.createStatement();
 	}
 	
 	/**
-	 * Makes a connection with a databse
+	 * Makes a connection with a database
 	 * @param connection you want to do with sql
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
 	public void connect(String connection) throws SQLException, ClassNotFoundException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		DriverManager.getConnection(connection);
-		if (conn)
+		conn = DriverManager.getConnection(connection);
 		st = conn.createStatement();
 	}
 	
@@ -58,7 +63,7 @@ public class MatchesConnection{
 	 * @throws SQLException
 	 */
 	public FootballTeam getTeam(String name) throws SQLException{
-		 ResultSet rs = st.executeQuery("select * from team where name='"+name+"';");
+		 rs = st.executeQuery("select * from team where name='"+name+"';");
 		 FootballTeam team = new FootballTeam();
 		 rs.next();
 		 team.setName(rs.getString(1));
@@ -74,8 +79,8 @@ public class MatchesConnection{
 	 * @throws SQLException
 	 */
 	public Player getPlayer(String name) throws SQLException{
-		ResultSet rs = st.executeQuery("select * from team where name='"+name+"';");
 		Player player = new Player();
+		rs = st.executeQuery("select * from player where name='"+name+"';");
 		rs.next();
 		player.setName(rs.getString(1));
 		player.setTeam(rs.getString(2));
@@ -91,11 +96,15 @@ public class MatchesConnection{
 	 * @throws SQLException
 	 */
 	public FootballMatch getMatch(String localTeam, String visitorTeam) throws SQLException{
-		ResultSet rs = st.executeQuery("select * from matches where localTeam='"+localTeam+"' and visitorTeam='"+visitorTeam+"';");
 		FootballMatch match = new FootballMatch();
+		rs = st.executeQuery("select * from matches where localTeam='"+localTeam+"' and visitorTeam='"+visitorTeam+"';");
 		rs.next();
-		match.setLocalTeam(getTeam(rs.getString(1)));
+		match.setLocalTeam(getTeam(rs.getString("localTeam")));
+		rs = st.executeQuery("select * from matches where localTeam='"+localTeam+"' and visitorTeam='"+visitorTeam+"';");
+		rs.next();
 		match.setVisitorTeam(getTeam(rs.getString(2)));
+		rs = st.executeQuery("select * from matches where localTeam='"+localTeam+"' and visitorTeam='"+visitorTeam+"';");
+		rs.next();
 		match.setGoalsLocal(rs.getInt(3));
 		match.setGoalsVisitor(rs.getInt(4));
 		return match;
@@ -152,11 +161,14 @@ public class MatchesConnection{
 	 * @throws SQLException
 	 */
 	public void insertMatch(FootballMatch match) throws SQLException{
-		pst=conn.prepareStatement("insert into matches(localTeam,visitorTeam,goalsLocal,goalsVisitor)values(?,?,?,?)"); 
+		pst=conn.prepareStatement("insert into matches(localTeam,visitorTeam,goalsLocal,goalsVisitor,id)values(?,?,?,?,?)"); 
 		pst.setString(1,match.getLocalTeam().getName()); 
 		pst.setString(2,match.getVisitorTeam().getName());
 		pst.setInt(3,match.getGoalsLocal());	
 		pst.setInt(4,match.getGoalsVisitor());	
+		ResultSet position = st.executeQuery("select max(id) from matches");
+		position.next();
+		pst.setInt(5,(position.getInt(1)+1));
 		pst.executeUpdate();	
 	}
 	

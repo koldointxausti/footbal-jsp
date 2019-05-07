@@ -51,7 +51,6 @@
 						break;
 					case "Player":
 						if(request.getParameter("edit") != null){
-							out.println(request.getParameter("team"));
 							player.setName(request.getParameter("name"));
 							player.setTeam(request.getParameter("team"));
 							player.setAge(Integer.parseInt(request.getParameter("age")));
@@ -62,13 +61,12 @@
 							response.sendRedirect("index.jsp?select=Player");							
 						}else{
 							player = mconn.getPlayer(request.getParameter("player"));
-							
 				%>
 							<input type="hidden" name="id" value="<%=request.getParameter("player") %>">
 							<input type="hidden" name="select" value="Player">
 							<table>
 								<tr><th colspan=2>PLAYER</th></tr>
-								<tr><th>Name:</th><td><input type="text" name="name"" value=<%=player.getName() %>></td></tr>
+								<tr><th>Name:</th><td><input type="text" name="name" value=<%=player.getName() %>></td></tr>
 								<tr><th>Team:</th><td><input type="text" name="team" value='<%=player.getTeam() %>'></td></tr>
 								<tr><th>Age:</th><td><input type="number" name="age" value=<%=player.getAge() %>></td></tr>
 								<tr><th>Height:</th><td><input type="number" name="height" value=<%=player.getHeight() %>></td></tr>
@@ -80,8 +78,8 @@
 						break;
 					case "Match":
 						if(request.getParameter("edit") != null){
-							match.setLocalTeam(new FootballTeam(request.getParameter("localTeam")));
-							match.setVisitorTeam(new FootballTeam(request.getParameter("visitorTeam")));
+							match.setLocalTeam(mconn.getTeam(request.getParameter("localTeam")));
+							match.setVisitorTeam(mconn.getTeam(request.getParameter("visitorTeam")));
 							match.setGoalsLocal(Integer.parseInt(request.getParameter("localGoals")));
 							match.setGoalsVisitor(Integer.parseInt(request.getParameter("visitorGoals")));
 															

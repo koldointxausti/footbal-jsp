@@ -66,10 +66,10 @@
 								<input type="hidden" name="select" value="Player">
 								<table>
 									<tr><th colspan=2>PLAYER</th></tr>
-									<tr><th>Name:</th><td><input type="text" name="name" pattern="[A-Za-z]+"></td></tr>
-									<tr><th>Team:</th><td><input type="text" name="team" pattern="[A-Za-z]+"></td></tr>
-									<tr><th>Age:</th><td><input type="number" name="age" pattern="[0-9]+"></td></tr>
-									<tr><th>Height:</th><td><input type="number" name="height" pattern="[0-9]+"></td></tr>
+									<tr><th>Name:</th><td><input type="text" name="name"></td></tr>
+									<tr><th>Team:</th><td><input type="text" name="team"></td></tr>
+									<tr><th>Age:</th><td><input type="number" name="age"></td></tr>
+									<tr><th>Height:</th><td><input type="number" name="height"></td></tr>
 									<tr><td colspan=2><input type="submit" name="add" value="Add"></td></tr>
 								</table>
 								<p>*Remember to use an existing team.</p>
@@ -98,10 +98,10 @@
 										<th>Visitor Team's name</th>
 									</tr>
 									<tr>
-										<td><input type="text" name="localTeam" pattern="[A-Za-z]+"></td>
-										<td><input type="number" name="localGoals" size=10 pattern="[0-9]+"></td>
-										<td><input type="number" name="visitorGoals" size=10 pattern="[0-9]+"></td>
-										<td><input type="text" name="visitorTeam" pattern="[A-Za-z]+"></td>
+										<td><input type="text" name="localTeam"></td>
+										<td><input type="number" name="localGoals" size=10></td>
+										<td><input type="number" name="visitorGoals" size=10></td>
+										<td><input type="text" name="visitorTeam"></td>
 									</tr>
 									<tr><td colspan=4><input type="submit" name="add" value="Add"></td></tr>
 								</table>

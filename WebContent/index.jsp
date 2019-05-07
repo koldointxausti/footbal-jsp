@@ -58,25 +58,25 @@
 						}
 					break;
 				case "Match":
-						rs = mconn.getMatches();
-						while(rs.next()){
-	%>
-							<table>
-								<tr>
-									<td><h4><%=rs.getString("localTeam") %></h4></td>
-									<td><h2><%=rs.getString("goalsLocal") %></h2></td>
-									<td> - </td>
-									<td><h2><%=rs.getString("goalsVisitor") %></h2></td>
-									<td><h4><%=rs.getString("visitorTeam") %></h4></td>
-								</tr>
-								<tr>
-									<td><a href="edit.jsp?select=Match&localTeam=<%=rs.getString(1)%>&visitorTeam=<%=rs.getString(2)%>">Edit</a></td>
-									<td><a href="delete.jsp?select=Match&localTeam=<%=rs.getString(1)%>&visitorTeam=<%=rs.getString(2)%>">Delete</a></td>
-								</tr>
-							</table>
-							<hr>
-	<%
-						}
+					rs = mconn.getMatches();
+					while(rs.next()){
+%>
+						<table>
+							<tr>
+								<td><h4><%=rs.getString("localTeam") %></h4></td>
+								<td><h2><%=rs.getString("goalsLocal") %></h2></td>
+								<td> - </td>
+								<td><h2><%=rs.getString("goalsVisitor") %></h2></td>
+								<td><h4><%=rs.getString("visitorTeam") %></h4></td>
+							</tr>
+							<tr>
+								<td colspan=2><a href="edit.jsp?select=Match&localTeam=<%=rs.getString(1)%>&visitorTeam=<%=rs.getString(2)%>">Edit</a></td>
+								<td colspan=2><a href="delete.jsp?select=Match&localTeam=<%=rs.getString(1)%>&visitorTeam=<%=rs.getString(2)%>">Delete</a></td>
+							</tr>
+						</table>
+						<hr>
+<%
+					}
 					break;
 			}
 			mconn.close();
