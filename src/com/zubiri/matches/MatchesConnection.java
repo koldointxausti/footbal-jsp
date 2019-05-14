@@ -1,5 +1,6 @@
 package com.zubiri.matches;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class MatchesConnection{
 	
@@ -53,8 +54,18 @@ public class MatchesConnection{
 	 * @return ResultSet with all the data saved in team table
 	 * @throws SQLException
 	 */
-	public ResultSet getTeams() throws SQLException {
-		return st.executeQuery("select * from team;");
+	public ArrayList<FootballTeam> getTeams() throws SQLException {
+		ArrayList<FootballTeam> teams = new ArrayList<FootballTeam>();
+		FootballTeam team = new FootballTeam();
+		ResultSet aux = st.executeQuery("select * from team;");
+		while(aux.next()) {
+			team.setName(aux.getString("name"));
+			team.setStadium(aux.getString("stadium"));
+			team.setWonLeagues(aux.getInt("wonLeagues"));
+			team.setShirtColor(aux.getString("shirtColor"));
+			teams.add(team);
+		}
+		return teams;
 	}
 	
 	/**
@@ -71,6 +82,15 @@ public class MatchesConnection{
 		 team.setWonLeagues(rs.getInt(3));
 		 team.setShirtColor(rs.getString(4));
 		 return team;
+	}
+	
+
+	/**
+	 * @return ResultSet with all the data saved in player table
+	 * @throws SQLException
+	 */
+	public ResultSet getPlayers() throws SQLException {
+		return st.executeQuery("select * from player;");
 	}
 	
 	/**
@@ -110,13 +130,6 @@ public class MatchesConnection{
 		return match;
 	}
 	
-	/**
-	 * @return ResultSet with all the data saved in player table
-	 * @throws SQLException
-	 */
-	public ResultSet getPlayers() throws SQLException {
-		return st.executeQuery("select * from player;");
-	}
 	
 	/**
 	 * @return ResultSet with all the data saved in matches table
